@@ -14,9 +14,10 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Connect to SQLite database
-db = sqlite3.connect("myJournal.db")
-
+# Create connection and cursor at application level
+#with app.app_context():
+#    db = sqlite3.connect("myJournal.db")
+#    cur = db.cursor()
 
 @app.after_request
 def after_request(response):
@@ -42,30 +43,35 @@ def login():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        """
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            flash("Please provide username")
+            return redirect("/login")
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            flash("Please provide password")
+            return redirect("/login")
 
         # Query database for username
-        rows = db.execute(
+        with sqlite3.connect("myJournal.db") as conn:
+            cur = conn.cursor()
+            cur.execute(
             "SELECT * FROM users WHERE username = ?",
             request.form.get("username").lower(),
-        )
+            )
+            res = cur.fetchall()
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(
-            rows[0]["hash"], request.form.get("password")
+        if len(res) != 1 or not check_password_hash(
+            res[0]["hash"], request.form.get("password")
         ):
-            return apology("invalid username and/or password", 403)
+            flash("Invalid username and/or password")
+            return redirect("/login")
 
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
-        """
+        session["user_id"] = res[0]["id"]
+        
         # Redirect user to home page
         return redirect("/")
 
@@ -87,38 +93,70 @@ def logout():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    """Register user"""
+    """Register user in the app"""
     if request.method == "POST":
-        """
-        username = request.form.get("username")
-        if not username:
-            return apology("Please provide your username!")
+        # Get email
+        email = request.form.get("email")
+        # Validate email
+        if not email:
+            flash("Please provide your email!")
+            return redirect("/register")
         else:
-            user_exists = db.execute(
-                "select count(*) as cnt from users where username = ?", username.lower()
-            )
-            if user_exists[0]["cnt"] > 0:
-                return apology("This username is taken, please choose different one!")
+            # Check if email is already taken
+            with sqlite3.connect("myJournal.db") as conn:
+                cur = conn.cursor()
+                cur.execute(
+                    "select count(*) as cnt from users where email = ?", (email.lower(),)
+                    )
+                email_exists = cur.fetchone()[0]
+            if email_exists > 0:
+                flash("This email is already registered, please use different one!")
+                return redirect("/register")
+            # Check if email is valid
+            if not email.count("@") == 1 or not email.count(".") == 1:
+                flash("Please provide a valid email address!")
+                return redirect("/register")
+        # Get username
+        username = request.form.get("username")
+        # Validate username
+        if not username:
+            flash("Please provide your username!") #TODO: error message
+            redirect("/register")
+        else:
+            # Check if username is already taken
+            with sqlite3.connect("myJournal.db") as conn:
+                cur = conn.cursor()
+                cur.execute(
+                "select count(*) as cnt from users where username = ?", (username.lower(),)
+                )
+                user_exists = cur.fetchone()[0]
+            if user_exists > 0:
+                flash("This username is taken, please choose different one!")
+                return redirect("/register")
         password = request.form.get("password")
         if not password:
-            return apology("Please provide your password!")
+            flash("Please provide your password!")
+            return redirect("/register")
         confirmation = request.form.get("confirmation")
         if not confirmation:
-            return apology("Please confirm your password!")
+            flash("Please confirm your password!")
+            return redirect("/register")
         if password != confirmation:
-            return apology(
-                "Confirmation of password is not the same as password! Please provide same value!"
-            )
-        db.execute(
-            "insert into users(username, hash) values(?, ?)",
-            username.lower(),
-            generate_password_hash(password),
-        )
-        """
+            flash("Passwords do not match!")
+            return redirect("/register")
+        with sqlite3.connect("myJournal.db") as conn:
+            cur = conn.cursor()
+            cur.execute(
+                "insert into users(username, password, email) values(?, ?, ?)",
+                (username.lower(),
+                generate_password_hash(password),
+                email.lower()
+                ))
+            conn.commit()
         flash("You were successfully registered!")
-    else:
-        return render_template("register.html")
-    return redirect("/")
+        return redirect("/")
+    return render_template("register.html")
+    
 
 
 @app.route("/change_password", methods=["GET", "POST"])
@@ -166,7 +204,7 @@ def create():
 
 @app.route("/history", methods=["GET", "POST"])
 @login_required
-def create():
+def history():
     """Displays a history of entries"""
     if request.method == "POST":
         flash("History")
@@ -177,7 +215,7 @@ def create():
 
 @app.route("/config", methods=["GET", "POST"])
 @login_required
-def create():
+def config():
     """Displaying journal configuration"""
     if request.method == "POST":
         flash("Configuration of journal updated!")
