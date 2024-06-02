@@ -29,3 +29,75 @@ nav .navbar-brand .green
 .text-end {
     text-align:right;
 }
+
+.calendar {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.calendar-body {
+    padding: 10px;
+}
+
+.calendar-weekdays {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.calendar-weekdays div {
+    width: 14.28%;  /* 100% / 7 days */
+    text-align: center;
+}
+
+.calendar-days {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.calendar-day {
+    width: 14.28%;  /* 100% / 7 days */
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.calendar-day[data-entry="true"] {
+    background-color: #007bff7d;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.calendar-day[data-entry="true"]:hover {
+    background-color: #007bff3e;
+}
