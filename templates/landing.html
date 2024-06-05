@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Welcome
+{% endblock %}
+
+{% block main %}
+<div class="landing-container">
+    <div class="hero">
+        <div class="overlay"></div>
+        <div class="hero-text">
+            <h2 id="quote"></h2>
+            <p>- Marcus Aurelius</p>
+            <p>Journaling is a powerful tool for self-reflection and growth. Start your journey today!</p>
+        </div>
+    </div>
+    <div class="cta-buttons">
+        <a href="/register" class="cta">Register</a>
+        <a href="/login" class="cta-secondary">Login</a>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='landing.js') }}"></script>
+{% endblock %}

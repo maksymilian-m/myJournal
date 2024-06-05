@@ -1,3 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+#logo {
+    width: 50px; /* Adjust size as needed */
+    height: auto;
+    margin-right: 10px;
+    border-radius: 10px;
+    border: 1px black solid;
+}
+.landing-container {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100%; /* Adjusted height */
+    background: url('background.jpg') no-repeat center center/cover;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)); /* Lighter gradient */
+}
+
+.hero-text {
+    position: relative;
+    color: #fff;
+    z-index: 2;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.hero-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2em;
+    margin: 20px 0;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-text p {
+    font-size: 1em;
+    margin: 10px 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.cta-buttons {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.cta-buttons .cta, .cta-buttons .cta-secondary {
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    margin: 10px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cta-buttons .cta {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.cta-buttons .cta:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+}
+
+.cta-buttons .cta-secondary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.cta-buttons .cta-secondary:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+.dashboard {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background-color: #007bff;
+    color: #fff;
+    width: 45%;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.stat h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.stat p {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.stat i {
+    font-size: 3em;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0.1;
+}
+
+.stat:hover {
+    background-color: #0056b3;
+}
+
 /* Size for brand */
 nav .navbar-brand
 {
@@ -89,6 +247,7 @@ nav .navbar-brand .green
 
 .calendar-day[data-entry="true"] {
     background-color: #007bff7d;
+    color: #fff;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -100,4 +259,166 @@ nav .navbar-brand .green
 
 .calendar-day[data-entry="true"]:hover {
     background-color: #007bff3e;
+}
+
+.today {
+    border: 2px solid red;
+}
+
+.config-container {
+    width: 60%;
+    margin: auto;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: "Roboto", sans-serif;
+}
+
+.config-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.config-item {
+    margin-bottom: 20px;
+}
+
+label, h3 {
+    font-size: 16px;
+    color: #555;
+}
+
+#weekly-goal-slider {
+    width: 100%;
+}
+
+#weekly-goal-value {
+    font-weight: bold;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 34px; /* Adjust the width as needed */
+    height: 20px; /* Adjust the height as needed */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 10px; /* Adjust border-radius if needed */
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px; /* Adjust the height as needed */
+    width: 16px; /* Adjust the width as needed */
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%; /* Adjust border-radius if needed */
+}
+
+input:checked + .slider {
+    background-color: #4CAF50; /* Change the color if needed */
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px); /* Adjust translateX value if needed */
+}
+
+#customize-prompts-section {
+    display: none;
+    padding-top: 10px;
+}
+
+#prompts-list {
+    list-style: none;
+    padding: 0;
+}
+
+#prompts-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.prompt-text {
+    flex-grow: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.remove-prompt-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.remove-prompt-btn:hover {
+    background-color: #c82333;
+}
+
+.add-prompt {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#new-prompt {
+    flex-grow: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.add-prompt-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-prompt-btn:hover {
+    background-color: #0056b3;
+}
+
+.save-settings-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0;
+    text-align: center;
+}
+
+.save-settings-btn:hover {
+    background-color: #0056b3;
 }

@@ -34,10 +34,18 @@ document.addEventListener("DOMContentLoaded", function() {
             dayDiv.classList.add("calendar-day");
             dayDiv.textContent = day;
             
-            if (journalEntries[dateStr]) {
+            if (journalEntries[dateStr])  {
                 dayDiv.setAttribute("data-entry", "true");
                 dayDiv.addEventListener("click", () => {
                     window.location.href = `/entry/${journalEntries[dateStr]}`;
+                });
+            }
+            // add different color for today and link to entry
+            if (day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+                dayDiv.setAttribute("data-entry", "true");
+                dayDiv.classList.add("today");
+                dayDiv.addEventListener("click", () => {
+                    window.location.href = `/entry`;
                 });
             }
 

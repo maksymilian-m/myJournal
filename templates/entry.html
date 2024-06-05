@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Journal Entry
+{% endblock %}
+
+{% block main %}
+    <form action="/entry" method="post">
+        <div class="mb-3">
+            <p class="mx-auto w-auto">{{ date }}</p>
+        </div>
+        <div class="mb-3">
+            <textarea class="form-control mx-auto w-100" name="content" placeholder="Your thoughts" rows="10" autofocus>
+                {% if entry %}
+                    {{ entry }}
+                {% endif %}
+            </textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Add to your journal</button>
+{% endblock %}

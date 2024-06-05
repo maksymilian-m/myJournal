@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home Dashboard
+{% endblock %}
+
+{% block main %}
+<div class="dashboard">
+    <h1>Welcome to Your Journal</h1>
+    
+    <div class="stats">
+        <div class="stat">
+            <h2>Total Entries <i class="fas fa-book"></i></h2>
+            <p>{{ total_entries }}</p>
+            <p style="font-size: 1em"><a style="color:white;" href="/calendar">Explore your entries</a></p>
+        </div>
+        <div class="stat">
+            <h2>Weekly Goal <i class="fas fa-bullseye"></i></h2>
+            <p>{{ weekly_goal }} entries</p>
+            <p style="color: {{ 'green' if goal_achieved else 'red' }}; font-size: 1em;">{{ 'Achieved ✅' if goal_achieved else 'Not Achieved ❌' }}</p>
+        </div>
+        <div class="stat">
+            <h2>Total Word Count <i class="fas fa-file-alt"></i></h2>
+            <p>{{ word_count }}</p>
+        </div>
+        <div class="stat">
+            <h2>Average Word Count per Entry <i class="fab fa-sistrix"></i></h2>
+            <p>{{ avg_count }}</p>
+        </div>
+        <div class="stat">
+            <h2>Current Streak <i class="fas fa-fire"></i></h2>
+            <p>{{ current_streak }} {{ 'day' if current_streak == 1 else 'days' }}</p>
+            <p>{{ '🔥' if current_streak > 1 else '❄️' }}</p>
+        </div>
+        <div class="stat">
+            <h2>Max Streak <i class="fas fa-award"></i></h2>
+            <p>{{ max_streak }} {{ 'day' if max_streak == 1 else 'days' }}</p>
+            <p>{{ '🔥' if max_streak > 1 else '❄️' }}</p>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
