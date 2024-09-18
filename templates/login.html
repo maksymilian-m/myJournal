@@ -5,13 +5,25 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/login" method="post">
+    <form id="login" action="/login" method="post">
         <div class="mb-3">
             <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
         </div>
         <div class="mb-3">
             <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
         </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
+        <button class="btn btn-primary" type="submit" onclick="showLoading()">Log In</button>
     </form>
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Your Journal is opening up...</p>
+        </div>
+    </div>
+    <script>
+        function showLoading() {
+            document.getElementById("loading").style.display = "flex";
+            document.getElementById("login").style.display = "none";
+        }
+    </script>
 {% endblock %}

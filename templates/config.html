@@ -8,11 +8,11 @@
 <div class="config-container">
     <h2>Journal Configuration</h2>
     
-    <form id="config-form">
+    <form id="config-form" action="/config" method="post">
     <!-- Weekly Goal Configuration -->
     <div class="config-item">
         <label for="weekly-goal-slider">Weekly Goal (days):</label>
-        <input type="range" id="weekly-goal-slider" min="1" max="7" value={{ weekly_goal }} oninput="updateWeeklyGoalValue(this.value)">
+        <input type="range" id="weekly-goal-slider" name= "weekly-goal" min="1" max="7" value={{ weekly_goal }} oninput="updateWeeklyGoalValue(this.value)">
         <span id="weekly-goal-value">{{ weekly_goal }}</span> days
     </div>
 
@@ -20,25 +20,13 @@
     <div class="config-item">
         <label for="toggle-prompts">Enable Entry Prompts:</label>
         <label class="switch">
-            <input type="checkbox" id="toggle-prompts" {% if prompts_enabled == 1 %} checked {% endif %} onchange="togglePrompts(this.checked)">
+            <input type="checkbox" id="toggle-prompts" name="toggle-prompts" {% if prompts_enabled == 1 %} checked {% endif %}>
             <span class="slider"></span>
         </label>
     </div>
 
-    <!-- Customize Prompts -->
-    <div class="config-item" id="customize-prompts-section">
-        <h3>Customize Prompts</h3>
-        <ul id="prompts-list">
-            <!-- Default prompts will be displayed here -->
-        </ul>
-        <div class="add-prompt">
-            <input type="text" id="new-prompt" placeholder="Enter a new prompt">
-            <button class="add-prompt-btn" onclick="addPrompt()">Add</button>
-        </div>
-    </div>
-    <button class="save-settings-btn">Save Settings</button>
+    <button class="save-settings-btn" type="submit">Save Settings</button>
 </form>
 </div>
 <script src="{{ url_for('static', filename='config.js') }}"></script>
-<script id="promptsInput" type="application/json">{{ prompts|tojson }}</script>
 {% endblock %}

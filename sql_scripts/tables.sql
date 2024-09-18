@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS USERS (
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    weekly_goal INTEGER DEFAULT 5,
+    weekly_goal INTEGER DEFAULT 0,
     prompts_enabled INTEGER DEFAULT 1
 );
 
@@ -25,4 +25,4 @@ CREATE TABLE IF NOT EXISTS PROMPTS (
     user_id INTEGER NOT NULL,
     prompt TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES USERS(id)
-)
+);
