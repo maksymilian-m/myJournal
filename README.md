@@ -133,13 +133,13 @@ source venv/bin/activate
 # For Windows
 python -m venv venv
 venv\Scripts\activate
-
+```
 ### Step 3: Install Dependencies
 Ensure you have a requirements.txt file in the project root and install the dependencies:
 
 ```bash
 pip install -r requirements.txt
-
+```
 ### Step 4: Initialize the Database
 Before running the application, you need to set up the SQLite database.
 
@@ -148,7 +148,7 @@ Run the following commands in the Python shell to initialize the database (assum
 ```python
 from your_flask_app import db
 db.create_all()
-
+```
 This will create the necessary tables in your SQLite database.
 
 ### Step 5: Run the Application
@@ -156,7 +156,7 @@ After setting up the environment, you can run the application locally with the f
 
 ```bash
 flask run
-
+```
 The app will be accessible at http://127.0.0.1:5000/ by default.
 
 ## Usage
