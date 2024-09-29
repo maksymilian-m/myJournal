@@ -5,8 +5,7 @@ CREATE TABLE IF NOT EXISTS USERS (
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    weekly_goal INTEGER DEFAULT 0,
-    prompts_enabled INTEGER DEFAULT 1
+    weekly_goal INTEGER DEFAULT 0
 );
 
 -- Create JOURNAL table (SQLITE3)

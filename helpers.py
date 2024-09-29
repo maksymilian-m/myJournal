@@ -57,34 +57,31 @@ def change_user_password(user_id, old_password, new_password):
     return True
 
 def calculate_streaks(entries):
-    """Calculate current and max streaks"""
-    # If there are no entries, return zero streaks
-    if entries is None:
-        return 0, 0
-    # If the first entry is from today, then the current streak is 1
-    if entries[0] == datetime.now(pytz.timezone('Europe/Warsaw')).strftime('%Y-%m-%d'):
-        current_streak = 1
-        max_streak = 1
-    else:
-        current_streak = 0
-        max_streak = 0
-    
-    streak_active = True
+    # Convert strings to datetime objects and sort them
+    dates = sorted(set(datetime.strptime(date, '%Y-%m-%d').date() for date in entries))
 
-    for i in range(len(entries) - 1):
-        current_date = datetime.strptime(entries[i], '%Y-%m-%d')
-        next_date = datetime.strptime(entries[i+1], '%Y-%m-%d')
-        if (current_date - next_date).days == 1:
-            current_streak += 1
-            max_streak = max(max_streak, current_streak)
-        else:
-            streak_active = False
-            current_streak = 0
+    # Calculate the current streak
+    today = datetime.now().date()
+    current_streak = 0
 
-    # Add the last streak if it's active
-    if streak_active:
+    while today in dates:
         current_streak += 1
-        max_streak = max(max_streak, current_streak)
+        today -= timedelta(days=1)
+
+    # Calculate the maximum streak
+    max_streak = 0
+    streak = 0
+    last_date = None
+
+    for date in dates:
+        if last_date is None or (date - last_date).days == 1:
+            streak += 1
+        else:
+            max_streak = max(max_streak, streak)
+            streak = 1  # Reset streak for the new sequence
+        last_date = date
+
+    max_streak = max(max_streak, streak)  # Final check for the last streak
 
     return current_streak, max_streak
 
@@ -93,40 +90,41 @@ def get_entry_from_id(entry_id):
     with sqlite3.connect("myJournal.db") as conn:
         cur = conn.cursor()
         res = cur.execute("select entry, created_at from journal where id = ?", (entry_id,))
-        if res.fetchone() is None:
+        entry = res.fetchone()
+        if entry is None:
             return None, datetime.fromisoformat(datetime.now(pytz.timezone('Europe/Warsaw')).strftime('%Y-%m-%d')).strftime("%d %B %Y")
         else:
-            return res.fetchone()[0], datetime.fromisoformat(res.fetchone()[1]).strftime("%d %B %Y")
+            return entry[0], datetime.fromisoformat(entry[1]).strftime("%d %B %Y")
     
 def get_today_entry_id(user_id):
     """Get today entry id from database"""
     with sqlite3.connect("myJournal.db") as conn:
         cur = conn.cursor()
         res = cur.execute("select id from journal where created_at = ? and user_id = ?", (datetime.now(pytz.timezone('Europe/Warsaw')).strftime('%Y-%m-%d'), user_id))
-        if res.fetchone() is None:
-            return None
-        else:
+        try:
             return res.fetchone()[0]
+        except:
+            return None
 
 def get_user_config(user_id):
     """Get user configuration"""
     with sqlite3.connect("myJournal.db") as conn:
         cur = conn.cursor()
-        res = cur.execute("select weekly_goal, prompts_enabled from users where id = ?", (user_id,))
-        return res.fetchone()
+        res = cur.execute("select weekly_goal from users where id = ?", (user_id,))
+        return res.fetchone()[0]
 
-def update_user_config(user_id, weekly_goal, prompts_enabled):
+def update_user_config(user_id, weekly_goal):
     """Update user configuration"""
     try:
         with sqlite3.connect("myJournal.db") as conn:
             cur = conn.cursor()
-            cur.execute("update users set weekly_goal = ?, prompts_enabled = ? where id = ?", (weekly_goal, prompts_enabled, user_id))
+            cur.execute("update users set weekly_goal = ? where id = ?", (weekly_goal, user_id))
             conn.commit()
-        session["weekly_goal"] = weekly_goal
-        session["prompts_enabled"] = prompts_enabled
+        session["weekly_goal"] = int(weekly_goal)
         return True
     except Exception:
         return False
+
 def get_entries_stats(user_id):
     """Get entries stats for given user id, used on Home Dashboard"""
     with sqlite3.connect("myJournal.db") as conn:
@@ -203,7 +201,6 @@ class User:
         self.user_id = user_id
         if new_user:
             self.weekly_goal = 0
-            self.prompts_enabled = 1
             self.entry_id = None
             self.total_entries = 0
             self.word_count = 0
@@ -212,14 +209,13 @@ class User:
             self.max_streak = 0
             self.entries_this_week = 0
         else:
-            self.weekly_goal, self.prompts_enabled = get_user_config(self.user_id)
+            self.weekly_goal = get_user_config(self.user_id)
             self.entry_id = get_today_entry_id(self.user_id)
             self.total_entries, self.word_count, self.avg_count, self.current_streak, self.max_streak, self.entries_this_week = get_entries_stats(self.user_id)
     def to_dict(self):
         return {
             'user_id': self.user_id,
             'weekly_goal': self.weekly_goal,
-            'prompts_enabled': self.prompts_enabled,
             'entry_id': self.entry_id,
             'total_entries': self.total_entries,
             'word_count': self.word_count,

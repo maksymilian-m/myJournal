@@ -6,25 +6,15 @@
 
 {% block main %}
 <form action="/entry" method="post">         
-<div class="mb-3">
-            <p class="mx-auto w-auto">{{ date }}</p>
-        </div>
-         <!-- The Modal -->
-         <div id="promptModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <p id="prompt-text"></p>
-            </div>
-        </div>
-        <div class="mb-3">
-            <textarea class="form-control mx-auto w-100" name="content" placeholder="Your thoughts" rows="10" {% if not entry %} autofocus {% endif %} {% if readonly %} readonly {% endif %}>{% if entry %}{{ entry }}{% endif %}</textarea>
-        </div>
-        {% if not readonly %}
+    <div class="mb-3">
+        <p class="mx-auto w-auto">{{ date }}</p>
+    </div>
+    <div class="mb-3">
+        <textarea class="form-control mx-auto w-100" name="content" placeholder="Your thoughts" rows="10" {% if not entry %} autofocus {% endif %} {% if readonly %} readonly {% endif %}>{% if entry %}{{ entry }}{% endif %}</textarea>
+    </div>
+    {% if not readonly %}
         <button class="btn btn-primary" type="submit">Add to your journal</button>
-        {% if prompts_enabled %}
-        <button id="prompt-btn" type="button" class="btn btn-secondary">Show Prompt</button>
-        {% endif %}
-        {% endif %}
+    {% endif %}
 </form>
-    <script src="{{ url_for('static', filename='modal.js') }}"></script>
+<script src="{{ url_for('static', filename='modal.js') }}"></script>
 {% endblock %}

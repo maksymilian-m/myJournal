@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
@@ -24,6 +24,7 @@ def after_request(response):
 
 @app.route("/")
 def index():
+    """Landing / home page"""
     if session.get("user_id"):
         return redirect(url_for("home"))
     else:
@@ -38,13 +39,12 @@ def login():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        # Ensure username was submitted
         username = request.form.get("username")
         password = request.form.get("password")
+        # Ensure username was submitted
         if not username:
             flash("Please provide username")
             return render_template("login.html")
-
         # Ensure password was submitted
         elif not password:
             flash("Please provide password")
@@ -52,7 +52,6 @@ def login():
 
         # Ensure username and password are correct
         user_id = verify_login(username, password)
-
         if user_id is None:
             flash("Invalid username and/or password")
             return render_template("login.html")
@@ -84,7 +83,6 @@ def logout():
 def home():
     """Home Page presenting user dashboard"""
     # Goals
-    print(f"entries_this_week: {session['entries_this_week']}, weekly_goal: {session['weekly_goal']}")
     goal_achieved = session["entries_this_week"] >= session["weekly_goal"]
 
     return render_template("home.html", total_entries=session["total_entries"],
@@ -183,14 +181,14 @@ def entry():
         else:
             entry = None
             date = datetime.now(pytz.timezone("Europe/Warsaw")).strftime("%d %B %Y")
-        return render_template("entry.html", date=date, entry=entry, prompts_enabled = session["prompts_enabled"], readonly=False)
+        return render_template("entry.html", date=date, entry=entry, readonly=False)
 
 @app.route('/entry/<int:entry_id>', methods=['GET'])
 def show_entry(entry_id):
     # Retrieve the journal entry from the database using entry_id
     entry, date = get_entry_from_id(entry_id)
     date = datetime.fromisoformat(date).strftime("%d %B %Y")
-    return render_template('entry.html', entry=entry, date=date, prompts_enabled=False, readonly=True)
+    return render_template('entry.html', entry=entry, date=date, readonly=True)
 
 @app.route("/calendar")
 @login_required
@@ -211,13 +209,7 @@ def config():
             flash("Weekly goal should be between 0 and 7")
             return redirect("/config")
         
-        prompts_enabled = request.form.get("toggle-prompts")
-        if not prompts_enabled or prompts_enabled != "true":
-            prompts_enabled = 0
-        else:
-            prompts_enabled = 1
-        
-        if not update_user_config(session["user_id"], weekly_goal, prompts_enabled):
+        if not update_user_config(session["user_id"], weekly_goal):
             flash("Something went wrong, please try again!")
             return redirect("/config")
 
@@ -225,4 +217,4 @@ def config():
         flash("Configuration of journal updated!")
         return redirect("/")
     else:
-        return render_template("config.html", weekly_goal=session["weekly_goal"], prompts_enabled=session["prompts_enabled"])
+        return render_template("config.html", weekly_goal=session["weekly_goal"])

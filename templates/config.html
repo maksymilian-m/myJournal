@@ -16,15 +16,6 @@
         <span id="weekly-goal-value">{{ weekly_goal }}</span> days
     </div>
 
-    <!-- Toggle Prompts -->
-    <div class="config-item">
-        <label for="toggle-prompts">Enable Entry Prompts:</label>
-        <label class="switch">
-            <input type="checkbox" id="toggle-prompts" name="toggle-prompts" {% if prompts_enabled == 1 %} checked {% endif %}>
-            <span class="slider"></span>
-        </label>
-    </div>
-
     <button class="save-settings-btn" type="submit">Save Settings</button>
 </form>
 </div>
