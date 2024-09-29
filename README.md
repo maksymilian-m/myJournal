@@ -14,7 +14,6 @@ This project is currently only available on a local server and was developed as 
 4. [Usage](#usage)
 5. [Demo](#demo)
 6. [Future Improvements](#future-improvements)
-7. [License](#license)
 
 ## Features
 
@@ -60,68 +59,7 @@ Make sure you have the following installed:
 ```bash
 git clone <repository-url>
 cd myJournal
-
-# myJournal
-
-**myJournal** is a digital journal application built using Flask. It allows users to write daily journal entries, view their past entries in a calendar view, and track their writing progress with statistics and goals. The app features user authentication (registration, login, and password management) and is designed to help users build and maintain a consistent journaling habit.
-
-This project is currently only available on a local server and was developed as part of a student project.
-
-## Table of Contents
-
-1. [Features](#features)
-2. [Tech Stack](#tech-stack)
-3. [Installation and Setup](#installation-and-setup)
-4. [Usage](#usage)
-5. [Demo](#demo)
-6. [Future Improvements](#future-improvements)
-7. [License](#license)
-
-## Features
-
-myJournal provides the following features for users:
-
-### Authentication:
-- **User Registration**: New users can create an account to begin journaling.
-- **Login/Logout**: Users can securely log in and out of their accounts.
-- **Change Password**: Users can change their password at any time through their account settings.
-
-### Journal Entry Features:
-- **Daily Journal Entry**: Users can create a journal entry for the current day. Only one entry per day is allowed, reinforcing the habit of regular journaling.
-- **Past Entries**: A calendar view allows users to navigate through their past entries. Clicking on a specific date redirects users to the entry written on that day.
-  
-### User Statistics:
-- **Total Entries**: Track the total number of journal entries.
-- **Total Word Count**: View the cumulative word count of all journal entries.
-- **Average Word Count per Entry**: Monitor the average length of entries over time.
-- **Current Streak**: See how many consecutive days the user has written an entry.
-- **Max Streak**: Track the longest streak of continuous journaling.
-
-### Weekly Goals:
-- **Customizable Goals**: Users can set a personal goal for the number of journal entries they wish to write each week.
-  
-## Tech Stack
-
-myJournal is built using the following technologies:
-- **Backend**: Flask (Python)
-- **Frontend**: HTML, CSS, JavaScript
-- **Database**: SQLite
-
-## Installation and Setup
-
-To run myJournal locally on your machine, follow these steps:
-
-### Prerequisites
-Make sure you have the following installed:
-- Python 3.x
-- Flask
-
-### Step 1: Clone the Repository
-
-```bash
-git clone <repository-url>
-cd myJournal
-
+```
 ### Step 2: Set Up Virtual Environment (Optional but Recommended)
 Create and activate a virtual environment to manage dependencies:
 
@@ -203,7 +141,3 @@ Although myJournal is currently a local application, several enhancements could 
   - **Reminders and Notifications**: Add a feature that sends reminders or notifications to encourage users to write daily.
   - **Backup and Export Options**: Integrate options to back up or export journal entries to external platforms (e.g., Google Drive, Dropbox) or file formats (e.g., PDF, CSV).
   - **Dark Mode**: Provide users with an option to switch between light and dark themes for a better user experience.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
